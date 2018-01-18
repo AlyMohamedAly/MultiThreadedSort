@@ -1,15 +1,14 @@
 package MultiThreadedSort;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class threadSort{
 
     public static void main (String[] args){
     }
 
-    public static int[] MergeThis (int[] ar1, int[] ar2, int sz){
-        int[] ans = new int[sz];
+    public static int[] MergeThis (int[] ar1, int[] ar2){
+        int[] ans = new int[ar1.length + ar2.length];
         int i, j, k;
         for (i = 0, j = 0, k = 0; i < ar1.length && j < ar2.length;){
             if (ar1[i] < ar2[j]){
@@ -62,10 +61,10 @@ public class threadSort{
 
         }
 
-        public MergingThread (int[] arr1, int[] arr2, int size){
+        public MergingThread (int[] arr1, int[] arr2){
             ar1 = arr1;
             ar2 = arr2;
-            ans = new int[size];
+            ans = new int[arr1.length + arr2.length];
         }
 
         @Override
@@ -167,7 +166,7 @@ public class threadSort{
                 TH2.join();
             }catch (InterruptedException ex){
             }
-            return MergeThis(TH1.ar, TH2.ar, arr.length);
+            return MergeThis(TH1.ar, TH2.ar);
         case 4:
             while (true)
                 if ((!TH1.isAlive() && !TH2.isAlive()) || (!TH3.isAlive() && !TH4.isAlive())){
@@ -176,14 +175,14 @@ public class threadSort{
                     while (true){
                         if (flag1){
                             if (!TH1.isAlive() && !TH2.isAlive()){
-                                MH1 = new MergingThread(TH1.ar, TH2.ar, arr.length / 2);
+                                MH1 = new MergingThread(TH1.ar, TH2.ar);
                                 MH1.run();
                                 flag1 = false;
                             }
                         }
                         if (flag2){
                             if (!TH3.isAlive() && !TH4.isAlive()){
-                                MH2 = new MergingThread(TH3.ar, TH4.ar, arr.length - (arr.length / 2));
+                                MH2 = new MergingThread(TH3.ar, TH4.ar);
                                 MH2.run();
                                 flag2 = false;
                             }
@@ -194,7 +193,7 @@ public class threadSort{
                                 MH2.join();
                             }catch (InterruptedException ex){
                             }
-                            return MergeThis(MH1.ans, MH2.ans, arr.length);
+                            return MergeThis(MH1.ans, MH2.ans);
                         }
                     }
                 }
@@ -209,28 +208,28 @@ public class threadSort{
                     while (true){
                         if (flag1){
                             if (!TH1.isAlive() && !TH2.isAlive()){
-                                MH1 = new MergingThread(TH1.ar, TH2.ar, arr.length / 4);
+                                MH1 = new MergingThread(TH1.ar, TH2.ar);
                                 MH1.run();
                                 flag1 = false;
                             }
                         }
                         if (flag2){
                             if (!TH3.isAlive() && !TH4.isAlive()){
-                                MH2 = new MergingThread(TH3.ar, TH4.ar, (arr.length / 2) - arr.length / 4);
+                                MH2 = new MergingThread(TH3.ar, TH4.ar);
                                 MH2.run();
                                 flag2 = false;
                             }
                         }
                         if (flag3){
                             if (!TH5.isAlive() && !TH6.isAlive()){
-                                MH3 = new MergingThread(TH5.ar, TH6.ar, (arr.length / 2) - arr.length / 4);
+                                MH3 = new MergingThread(TH5.ar, TH6.ar);
                                 MH3.run();
                                 flag3 = false;
                             }
                         }
                         if (flag4){
                             if (!TH7.isAlive() && !TH8.isAlive()){
-                                MH4 = new MergingThread(TH7.ar, TH8.ar, (arr.length / 2) - arr.length / 4);
+                                MH4 = new MergingThread(TH7.ar, TH8.ar);
                                 MH4.run();
                                 flag4 = false;
                             }
@@ -243,14 +242,14 @@ public class threadSort{
                                     while (true){
                                         if (flag5){
                                             if (!MH1.isAlive() && !MH2.isAlive()){
-                                                MH5 = new MergingThread(MH1.ans, MH2.ans, arr.length / 2);
+                                                MH5 = new MergingThread(MH1.ans, MH2.ans);
                                                 MH5.run();
                                                 flag5 = false;
                                             }
                                         }
                                         if (flag6){
                                             if (!MH3.isAlive() && !MH4.isAlive()){
-                                                MH6 = new MergingThread(MH3.ans, MH4.ans, arr.length - (arr.length / 2));
+                                                MH6 = new MergingThread(MH3.ans, MH4.ans);
                                                 MH6.run();
                                                 flag6 = false;
                                             }
@@ -261,7 +260,7 @@ public class threadSort{
                                                 MH6.join();
                                             }catch (InterruptedException ex){
                                             }
-                                            return MergeThis(MH6.ans, MH5.ans, arr.length);
+                                            return MergeThis(MH6.ans, MH5.ans);
                                         }
                                     }
                                 }
